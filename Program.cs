@@ -1,7 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Web2.Data;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container. 相依性插入容器, 註冊資料庫內容.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<Web2Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Web2Context") ?? throw new InvalidOperationException("Connection string 'Web2Context' not found.")));
 
 var app = builder.Build();
 
